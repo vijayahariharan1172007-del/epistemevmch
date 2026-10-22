@@ -1,0 +1,1 @@
+Removed the global magical swirl / shooting-star cursor and touch effect. The effect no longer runs on touch, click, or pointer movement. Other page animations and the Hedwig loading UI are unchanged.

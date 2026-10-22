@@ -1,0 +1,5 @@
+EPISTEME magical intro update
+
+New sequence: quick preparation loader -> Dobby message -> original-style Velammal-to-EPISTEME ticket -> Platform 9¾ station wall -> EPISTEME Express train -> existing EPISTEME logo welcome intro -> Marauder’s Map.
+
+The previous E tracing game and HTML-made ticket stage have been removed from the entry flow. The three generated images are included in intro-assets/. Other site pages and assets are preserved.

@@ -1,0 +1,1 @@
+Updated ARTERA book artwork with a transparent background and no surrounding glow. Also included as shared-assets/astra-feature-book.webp for use as the requested ASTRA feature book asset.

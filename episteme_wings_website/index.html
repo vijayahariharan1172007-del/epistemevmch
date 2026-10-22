@@ -1,0 +1,407 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#070810">
+<title>The Wings of EPISTEME</title>
+<style>
+#magicLoader{position:fixed;inset:0;z-index:1000;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;padding:28px;text-align:center;background:radial-gradient(ellipse at 50% 42%,#182b37 0,#080d19 46%,#010207 100%);transition:opacity .9s ease,visibility .9s ease;overflow:hidden}
+#magicLoader:before,#magicLoader:after{content:"";position:absolute;width:75vmin;height:75vmin;border:1px solid #d6b35c55;border-radius:50%;box-shadow:0 0 40px #d6b35c12,inset 0 0 40px #d6b35c0c;animation:loaderOrbit 12s linear infinite;pointer-events:none}
+#magicLoader:after{width:58vmin;height:58vmin;border-style:dashed;animation-direction:reverse;animation-duration:20s}
+#magicLoader.gone{opacity:0;visibility:hidden;pointer-events:none}
+.loader-mark{position:relative;z-index:1;width:110px;height:110px;border-radius:50%;display:grid;place-items:center;border:1px solid #e4c77899;box-shadow:0 0 28px #e7bd5c33,inset 0 0 20px #e7bd5c18;font-size:3rem;color:#f5d98d;animation:loaderPulse 2.3s ease-in-out infinite}
+.loader-title{position:relative;z-index:1;font:600 clamp(1.2rem,5vw,2rem) 'Cinzel',Georgia,serif;letter-spacing:.16em;color:#f3d58a;text-shadow:0 0 18px #c78b31}
+.loader-sub{position:relative;z-index:1;color:#c7c9d6;font-size:.78rem;letter-spacing:.16em;text-transform:uppercase}
+.loader-track{position:relative;z-index:1;width:min(72vw,300px);height:3px;background:#ffffff20;border-radius:9px;overflow:hidden;margin-top:5px}
+#loaderProgress{height:100%;width:0;background:linear-gradient(90deg,#9d7432,#fff0a5,#d9a944);box-shadow:0 0 12px #f2d27c;transition:width .25s ease}
+#loaderStatus{position:relative;z-index:1;font-size:.72rem;color:#d9c48f;min-height:1.2em}
+@keyframes loaderOrbit{to{transform:rotate(360deg)}}@keyframes loaderPulse{0%,100%{transform:scale(.96);box-shadow:0 0 22px #e7bd5c22}50%{transform:scale(1.04);box-shadow:0 0 40px #e7bd5c66}}
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=IM+Fell+English:ital@0;1&display=swap');
+:root{--gold:#e8c574;--paper:#f1e5c9;--ink:#21170f;--bg:#060812}
+*{box-sizing:border-box}
+html,body{margin:0;width:100%;height:100%;overflow:hidden;background:var(--bg);color:#f8edcf}
+body{font-family:'IM Fell English',Georgia,serif;overscroll-behavior:none}
+button{font:inherit;color:inherit;cursor:pointer}
+#intro{position:fixed;inset:0;z-index:20;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;padding:8vh 5vw 4vh;background:radial-gradient(ellipse at 50% 65%,#182440 0,#080c1b 50%,#020308 100%);transition:opacity 1.2s ease,visibility 1.2s}
+#intro:before{content:"";position:absolute;inset:0;opacity:.38;background-image:radial-gradient(1px 1px at 20% 24%,#fff 99%,transparent),radial-gradient(1px 1px at 76% 17%,#fff 99%,transparent),radial-gradient(2px 2px at 60% 38%,#e8c574 99%,transparent),radial-gradient(1px 1px at 35% 70%,#fff 99%,transparent);background-size:180px 190px,240px 230px,210px 180px,150px 210px;animation:stars 9s linear infinite}
+#intro h1{z-index:1;text-align:center;font:clamp(1.4rem,6vw,2.7rem) 'Cinzel',serif;letter-spacing:.12em;color:#f3d58a;text-shadow:0 0 16px #c78b31;margin:0;opacity:0;animation:fadeIn 1.4s .3s forwards}
+#intro .subtitle{z-index:1;margin-top:.7rem;letter-spacing:.18em;text-transform:uppercase;font-size:.7rem;color:#c8d5ed;opacity:0;animation:fadeIn 1.2s .9s forwards}
+.owl-wrap{position:relative;z-index:1;flex:1;display:flex;align-items:center;justify-content:center;width:100%;min-height:0}
+#owl{width:min(105vw,650px);max-height:78vh;object-fit:contain;filter:drop-shadow(0 0 22px #e6a94d66);opacity:0;transform:translateY(-7vh) scale(.92);animation:owlArrival 2.4s .2s cubic-bezier(.2,.7,.2,1) forwards}
+#intro .enter-hint{position:absolute;bottom:5vh;z-index:2;font-size:.78rem;color:#d7c79c;letter-spacing:.13em;opacity:0;animation:fadeIn 1s 2s forwards}
+#intro.leaving{opacity:0;visibility:hidden;pointer-events:none}
+#app{position:fixed;inset:0;opacity:0;transition:opacity 1.2s ease;background:radial-gradient(ellipse at 50% 32%,#111b30 0,#080c17 56%,#020308 100%);overflow:hidden}
+#app.ready{opacity:1}
+#app:before{content:"";position:absolute;inset:-30%;pointer-events:none;background:radial-gradient(ellipse at 50% 45%,#d9b66c08,transparent 62%);animation:none}
+#app:after{content:"";position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse at center,transparent 42%,#02030a9c 100%)}
+.ambient{position:absolute;inset:0;overflow:hidden;pointer-events:none;z-index:1}
+.spark{position:absolute;width:3px;height:3px;border-radius:50%;background:#f7d58b;box-shadow:0 0 8px 2px #f7b94b88;animation:floatUp var(--dur,8s) linear infinite;opacity:0}
+.topbar{position:relative;z-index:3;text-align:center;padding:calc(env(safe-area-inset-top) + 18px) 16px 4px}
+.brand{font:600 clamp(1.15rem,4.5vw,1.75rem) 'Cinzel',serif;letter-spacing:.17em;color:#f2d38a;text-shadow:0 0 12px #b8873d77}
+.tagline{font-size:.76rem;letter-spacing:.08em;color:#c3c9d7;margin-top:5px}
+.library{position:relative;z-index:2;height:calc(100% - 100px);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:4px 14px calc(env(safe-area-inset-bottom) + 12px);gap:8px}
+.prompt{font-size:.78rem;color:#ddc99a;text-align:center;margin:4px 0 9px;opacity:.9}
+.book-grid{width:min(100%,620px);height:min(76%,700px);display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;gap:clamp(4px,1.8vw,14px);perspective:1000px}
+.book-card{position:relative;min-height:0;min-width:0;border:0;border-radius:0;background:transparent;box-shadow:none;display:flex;align-items:center;justify-content:center;padding:0;overflow:visible;appearance:none;-webkit-tap-highlight-color:transparent;touch-action:manipulation;animation:cardIn 1.1s both;transition:transform .45s cubic-bezier(.2,.8,.2,1),filter .45s}
+.book-card:nth-child(2){animation-delay:.15s}.book-card:nth-child(3){animation-delay:.3s}.book-card:nth-child(4){animation-delay:.45s}
+.book-card:before,.book-card:after{content:none}
+.book-card:hover{transform:translateY(-4px) scale(1.025);filter:drop-shadow(0 0 15px color-mix(in srgb,var(--glow) 45%,transparent))}
+.book-card:active{transform:scale(.94)}
+.book-img{position:relative;z-index:1;width:100%;height:100%;min-height:0;object-fit:contain;filter:drop-shadow(0 9px 13px #0008);animation:bookFloat 5.5s ease-in-out infinite;transition:filter .45s,transform .45s;pointer-events:none}
+.book-card:nth-child(2) .book-img{animation-delay:-1.2s}.book-card:nth-child(3) .book-img{animation-delay:-2.1s}.book-card:nth-child(4) .book-img{animation-delay:-.7s}
+.book-name,.book-desc{display:none}
+.book-card.spell-active{z-index:5;animation:bookSpell .78s cubic-bezier(.15,.8,.2,1) both}
+.book-card.spell-active .book-img{animation:none;filter:drop-shadow(0 0 8px var(--glow)) drop-shadow(0 0 24px var(--glow)) brightness(1.3);}
+@keyframes bookSpell{0%{transform:scale(1);filter:brightness(1)}28%{transform:scale(1.12) rotate(-2deg);filter:brightness(1.7) drop-shadow(0 0 22px var(--glow))}58%{transform:scale(1.04) rotate(1deg);filter:brightness(1.35) drop-shadow(0 0 34px var(--glow))}100%{transform:scale(1.08);filter:brightness(1.15)}}
+#bookModal{position:fixed;z-index:1200;inset:0;display:none;align-items:flex-start;justify-content:center;padding:12px 12px 28px;background:#02030bf2;backdrop-filter:blur(9px);overflow-y:auto;overscroll-behavior:contain}
+#bookModal.open{display:flex;animation:fadeIn .35s both}
+.modal-stars{position:absolute;inset:0;pointer-events:none;background:radial-gradient(circle at 50% 15%,#d8ad4c0d,transparent 36%)}
+.book-shell{position:relative;flex:0 0 auto;width:min(88vw,440px);height:auto;min-height:0;margin:38px auto 28px;perspective:1900px;transform-style:preserve-3d;filter:drop-shadow(0 20px 34px #000c)}
+.book-spread{position:relative;inset:auto;display:flex;flex-direction:column;gap:12px;border-radius:5px 13px 13px 5px;transform-style:flat;overflow:visible;background:transparent;box-shadow:none}
+.page{position:relative;min-width:0;overflow:visible;background:var(--paper);color:var(--ink);padding:clamp(14px,4vw,26px) clamp(12px,3.4vw,23px);box-shadow:inset 0 0 24px #8a5a2b22;display:flex;flex-direction:column}
+.page-stack{display:flex;flex-direction:column;gap:12px;min-width:0}
+.page.left{display:none}
+.page.right{border-radius:4px 10px 10px 4px;box-shadow:inset 0 0 24px #8a5a2b22;min-height:clamp(390px,60dvh,560px);scroll-margin-top:18px}
+.page:before{content:"";position:absolute;inset:0;pointer-events:none;opacity:.22;background:repeating-linear-gradient(0deg,transparent 0 25px,#80694b15 26px 27px),radial-gradient(ellipse at 50% 40%,transparent 35%,#6f45221c 100%)}
+.page>*{position:relative;z-index:1}
+.page h2{font:600 clamp(.82rem,3.2vw,1.2rem) 'Cinzel',serif;letter-spacing:.04em;margin:0 0 10px;color:#382718}
+.page h3{font:600 .77rem 'Cinzel',serif;margin:11px 0 5px;color:#67461c}
+.page p,.page li{font-size:clamp(.7rem,2.6vw,.9rem);line-height:1.42;margin:0 0 7px}
+.page ul{padding-left:17px;margin:2px 0 0}
+.page .eyebrow{font:600 .6rem 'Cinzel',serif;letter-spacing:.13em;color:#8d6b34;margin-bottom:7px;text-transform:uppercase}
+.page-no{margin-top:auto;padding-top:10px;text-align:center;font-size:.65rem;color:#9c7a4c}
+.logo-page{align-items:center;justify-content:center;text-align:center;background:radial-gradient(ellipse at center,#fff6df,#e6d1a7);min-height:clamp(390px,60dvh,560px)}
+.logo-page img{width:95%;height:64%;object-fit:contain;filter:drop-shadow(0 6px 5px #6a4b2b55)}
+.logo-page h2{margin-top:8px;font-size:clamp(.85rem,3.7vw,1.25rem)}
+.logo-page p{font-style:italic;color:#70532b}
+.book-cover-spine{display:none}
+.turn-sheet{display:none!important}
+.turn-sheet.turning{display:block;transform:rotateY(-180deg)}
+.turn-sheet.turning-back{display:block;transform:rotateY(180deg)}
+.turn-sheet .sheet-front,.turn-sheet .sheet-back{position:absolute;inset:0;backface-visibility:hidden;background:linear-gradient(90deg,#cdb58c 0,#f4e8ce 5%,#f1e5c9 88%,#d2b98c 100%);padding:clamp(14px,4vw,26px) clamp(12px,3.4vw,23px);color:var(--ink);overflow:hidden;box-shadow:inset 10px 0 18px #8a5a2b1c,inset -3px 0 6px #8a5a2b22}
+.turn-sheet .sheet-front{border-radius:4px 10px 10px 4px}.turn-sheet .sheet-back{transform:rotateY(180deg);border-radius:4px 10px 10px 4px;background:linear-gradient(270deg,#cdb58c 0,#f4e8ce 5%,#f1e5c9 88%,#d2b98c 100%)}
+.sheet-front:before,.sheet-back:before{content:"";position:absolute;inset:0;background:repeating-linear-gradient(0deg,transparent 0 25px,#80694b15 26px 27px);opacity:.6}
+.sheet-front>* ,.sheet-back>*{position:relative;z-index:1}
+.sheet-front h2,.sheet-back h2{font:600 clamp(.8rem,3vw,1.1rem) 'Cinzel',serif;margin:0 0 10px}
+.sheet-front p,.sheet-back p,.sheet-front li,.sheet-back li{font-size:clamp(.68rem,2.5vw,.87rem);line-height:1.42}
+.page-writing{animation:inkWrite 1.7s steps(32,end) both;clip-path:inset(0 100% 0 0);animation-name:writeReveal}
+@keyframes writeReveal{to{clip-path:inset(0 0 0 0)}}
+
+.opening-cover{position:absolute;z-index:7;inset:0;transform-origin:left center;transform-style:preserve-3d;pointer-events:none;display:none;border-radius:5px 13px 13px 5px}
+.opening-cover.opening{display:block;animation:coverOpen 1.05s cubic-bezier(.55,.08,.25,1) forwards}
+.cover-front,.cover-back{position:absolute;inset:0;backface-visibility:hidden;border-radius:5px 13px 13px 5px;border:7px double #d6b65e;background:radial-gradient(ellipse at 50% 40%,#173d31,#06150f 72%);box-shadow:inset 0 0 0 4px #07120e,inset 0 0 30px #000b;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#f0cf78}
+.cover-front:before{content:"";position:absolute;inset:12px;border:1px solid #d8b45a88;border-radius:3px}.cover-back{transform:rotateY(180deg);background:linear-gradient(90deg,#4d3018,#d2ad5b,#6c421d)}
+.cover-star{font-size:2rem;text-shadow:0 0 15px #ffd56d}.cover-title{font:600 clamp(1.15rem,5vw,1.7rem) 'Cinzel',serif;letter-spacing:.12em;text-align:center;margin-top:12px;text-shadow:0 0 12px #e6b54c55}.cover-subtitle{font:.65rem 'Cinzel',serif;letter-spacing:.18em;margin-top:12px}.cover-ornament{font-size:2.5rem;margin-top:20px}
+@keyframes coverOpen{0%{transform:rotateY(0deg);box-shadow:inset -18px 0 20px #0008}65%{box-shadow:inset -7px 0 12px #0004}100%{transform:rotateY(-155deg);opacity:0;visibility:hidden}}
+
+.book-controls{position:sticky;z-index:8;bottom:0;display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap;padding:10px;margin-top:10px;border:1px solid #d7b66d66;border-radius:24px;background:#101627ee;color:#f0d995;backdrop-filter:blur(8px)}
+.control{border:1px solid #d7b66d88;border-radius:24px;background:#101627;color:#f0d995;padding:9px 12px;font-size:.75rem;box-shadow:0 0 14px #0007}
+.control:disabled{opacity:.3;cursor:default}
+.page-count{font: .7rem 'Cinzel',serif;color:#e6d19a}
+@keyframes floatOrb{0%,100%{margin-top:-7px}50%{margin-top:7px}}@keyframes orbPulse{0%{transform:scale(.85);opacity:.8}100%{transform:scale(1.45);opacity:0}}
+#summaryBox{position:fixed;z-index:50;left:50%;top:50%;transform:translate(-50%,-46%) scale(.94);width:min(88vw,370px);max-height:72dvh;overflow:auto;background:linear-gradient(145deg,#fff4d8,#ead3a4 70%,#d8b97a);color:#2c1d10;border:1px solid #e9c76f;border-radius:18px;padding:22px 20px 18px;box-shadow:0 0 0 100vmax #02040bd1,0 0 42px #e4bc5b88;display:none}
+#summaryBox:before{content:"✦  ✧  ✦";display:block;text-align:center;color:#9d722a;letter-spacing:.5em;margin-bottom:8px;font-size:.85rem}
+#summaryBox.show{display:block;animation:summaryIn .35s forwards}
+#summaryBox h2{font:600 1.05rem 'Cinzel',serif;text-align:center;margin:0 0 12px;color:#513717}
+#summaryBox ul{padding-left:20px;font-size:.92rem;line-height:1.5}
+#summaryBox li{padding:3px 0}
+#summaryBox button{display:block;margin:16px auto 0;background:#201a18;color:#f3d38b;border:1px solid #b68d4b;border-radius:22px;padding:10px 16px}
+.close-book{position:fixed;z-index:75;right:max(14px,env(safe-area-inset-right));top:max(14px,env(safe-area-inset-top));background:#0d1324ed;border:1px solid #d9b96999;border-radius:22px;padding:9px 13px;color:#f1d58e;font-size:.78rem;box-shadow:0 0 18px #d9b96933;backdrop-filter:blur(8px)}.close-book[hidden]{display:none}
+.join-wings-btn{display:inline-block;text-decoration:none;text-align:center;position:relative;z-index:4;flex-shrink:0;border:1px solid #e9cc7d;border-radius:30px;padding:11px 22px;background:linear-gradient(110deg,#17172a,#302342,#17172a);color:#f6d98d;font:600 .8rem Cinzel,serif;letter-spacing:.08em;box-shadow:0 0 22px #d6ae4a33;animation:joinGlow 2.8s ease-in-out infinite}
+@keyframes joinGlow{50%{box-shadow:0 0 28px #d6ae4a77, inset 0 0 12px #d6ae4a22}}
+.join-overlay{position:fixed;inset:0;z-index:80;display:none;align-items:center;justify-content:center;padding:20px;background:#03050cf2;backdrop-filter:blur(12px);overflow:auto}
+.join-overlay.show{display:flex;animation:fadeIn .25s both}
+.join-card{position:relative;width:min(92vw,480px);max-height:92dvh;overflow:auto;padding:25px 20px 22px;border:1px solid #d9b96999;border-radius:20px;text-align:center;background:radial-gradient(ellipse at top,#26304a,#101321 72%);box-shadow:0 0 40px #d9b96920}
+.join-card h2{font:600 1.15rem Cinzel,serif;color:#f2d38a;margin:0 0 12px}
+.join-card p{color:#e0dfdf;line-height:1.5;font-size:.95rem}
+.join-actions{display:flex;justify-content:center;gap:12px;flex-wrap:wrap;margin-top:18px}
+.join-actions button,.join-close{border:1px solid #d7b66d99;border-radius:24px;padding:10px 20px;background:#151a2b;color:#f5d995}
+.join-actions .primary{background:linear-gradient(110deg,#8a6429,#e0bd65);color:#17120b;font-weight:bold}
+#traceCanvas.spell-success{animation:traceSpell 1.25s ease-in-out 2;box-shadow:0 0 32px #72eaffaa,inset 0 0 35px #d9b96966;border-color:#bdefff}
+@keyframes traceSpell{0%,100%{filter:brightness(1);transform:scale(1)}45%{filter:brightness(2.4) hue-rotate(35deg);transform:scale(1.035)}}
+#traceCanvas{display:block;width:min(76vw,310px);height:min(76vw,310px);max-height:34dvh;margin:14px auto;border:1px solid #d9b96955;border-radius:18px;background:radial-gradient(circle,#17253a,#080b14);touch-action:none;box-shadow:inset 0 0 22px #d9b96914}
+.trace-hint{font-size:.8rem!important;color:#d9c58e!important}
+#portalCard{background:radial-gradient(ellipse at top,#283b3a,#101321 72%)}
+@keyframes fadeIn{to{opacity:1}}
+@keyframes owlArrival{0%{opacity:0;transform:translateY(-8vh) scale(.82)}55%{opacity:1;transform:translateY(3vh) scale(1.02)}100%{opacity:1;transform:translateY(0) scale(1)}}
+@keyframes stars{to{transform:translateY(-30px)}}
+@keyframes orbit{to{transform:rotate(360deg)}}
+@keyframes floatUp{0%{transform:translateY(30px) translateX(0);opacity:0}15%{opacity:.8}85%{opacity:.6}100%{transform:translateY(-110vh) translateX(35px);opacity:0}}
+@keyframes wandPick{0%{transform:translateX(-50%) scale(.88)}70%{transform:translateX(-50%) scale(1.08)}100%{transform:translateX(-50%) scale(1)}}
+@keyframes bookFloat{0%,100%{transform:translateY(0) rotate(-1deg)}50%{transform:translateY(-6px) rotate(1deg)}}
+@keyframes cardIn{from{opacity:0;transform:translateY(22px) scale(.96)}to{opacity:1;transform:translateY(0) scale(1)}}
+@keyframes summaryIn{to{transform:translate(-50%,-50%) scale(1)}}
+@media(min-width:700px){.book-grid{height:min(80%,760px);width:min(100%,700px)}.library{padding-bottom:25px}}
+@media(max-height:650px){.topbar{padding-top:8px}.library{height:calc(100% - 68px)}.book-grid{height:80%}.page{padding:10px}.page p,.page li{font-size:.68rem;line-height:1.3}}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
+
+/* Dedicated final faculty page with one circular portrait placeholder per listed faculty member. */
+.faculty-page-intro{color:#79633d;text-align:center;font-style:italic;margin:0 auto 16px;max-width:34ch}
+.faculty-portrait-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:15px 10px;align-items:start;justify-items:center;margin:16px auto 4px;max-width:100%}
+.faculty-portrait-card{width:100%;min-width:0;display:flex;flex-direction:column;align-items:center;text-align:center;gap:8px}
+.faculty-portrait{width:clamp(76px,19vw,112px);max-width:100%;aspect-ratio:1;border:2px dashed #b68d4b;border-radius:50%;background:radial-gradient(circle at 50% 35%,#d6b46b25,transparent 68%),#fffaf0;display:grid;place-items:center;overflow:hidden;box-shadow:0 0 0 5px #b68d4b12,inset 0 0 18px #b68d4b12}
+.faculty-portrait svg{width:43%;height:43%;fill:none;stroke:#9c7a40;stroke-width:3;stroke-linecap:round}
+.faculty-portrait-name{font-size:clamp(.58rem,2.4vw,.76rem);line-height:1.35;color:#5d4828;overflow-wrap:anywhere;max-width:100%}
+@media(min-width:380px){.faculty-portrait-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:18px 12px}}
+
+
+/* Rebuilt wing book faculty rows and floating close control */
+.faculty-portrait-grid{display:grid;grid-template-columns:1fr;gap:10px;margin:12px auto 4px;width:100%;max-width:100%}
+.faculty-portrait-card{display:flex;flex-direction:row;align-items:center;justify-content:flex-start;text-align:left;gap:12px;padding:8px 10px;border:1px solid #b68d4b35;border-radius:14px;background:#fffaf080}
+.faculty-portrait{flex:0 0 54px;width:54px;height:54px;aspect-ratio:1;border-radius:50%;}
+.faculty-portrait-name{font-size:clamp(.62rem,2.5vw,.78rem);font-weight:600;text-align:left}
+.faculty-photo-hint{display:block;font-size:.62rem;font-weight:400;color:#8a7658;margin-top:3px}
+.cover-rule{width:58%;height:1px;background:linear-gradient(90deg,transparent,#b68d4b,transparent);margin:13px auto}
+.cover-tagline{max-width:90%;font-style:italic}
+.close-book{position:fixed!important;z-index:2147483005!important;right:max(14px,env(safe-area-inset-right))!important;top:max(14px,env(safe-area-inset-top))!important;padding:11px 16px!important;border-radius:999px!important;border:1px solid #f2d58d!important;background:rgba(8,12,23,.94)!important;color:#ffe7a5!important;box-shadow:0 6px 26px #0009,0 0 18px #d9b96944!important;backdrop-filter:blur(12px)!important;cursor:pointer!important;font-weight:700!important}
+@media(max-width:480px){.faculty-portrait{flex-basis:48px;width:48px;height:48px}.faculty-portrait-card{gap:9px;padding:7px}}
+</style>
+<style id="EPISTEME-global-ui-css">
+#ep-global-dobby{position:fixed;z-index:2147483000;right:18px;top:16px;display:flex;align-items:center;gap:9px;border:1px solid rgba(231,199,124,.68);border-radius:999px;padding:8px 14px 8px 8px;background:rgba(17,16,25,.92);color:#f8e8bf;box-shadow:0 8px 32px #0008;cursor:pointer;font:600 12px/1.1 system-ui,sans-serif;letter-spacing:.07em;backdrop-filter:blur(12px);transition:transform .25s,box-shadow .25s}#ep-global-dobby:hover{transform:translateY(-2px);box-shadow:0 10px 35px #000a,0 0 20px #d9b76a33}#ep-global-dobby img{width:38px;height:38px;object-fit:cover;border-radius:50%;border:1px solid #d6b66b}#ep-global-dobby .ep-dot{width:7px;height:7px;border-radius:50%;background:#9ad7a5;box-shadow:0 0 9px #9ad7a5;position:absolute;right:13px;top:9px}#ep-global-menu{position:fixed;z-index:2147483001;right:18px;top:72px;width:min(350px,calc(100vw - 28px));max-height:calc(100dvh - 92px);overflow:auto;display:none;color:#f6ecd3;background:linear-gradient(145deg,rgba(28,24,36,.98),rgba(9,14,25,.98));border:1px solid #bba36b;border-radius:18px;padding:18px;box-shadow:0 24px 80px #000b;font:14px/1.45 system-ui,sans-serif;backdrop-filter:blur(18px)}#ep-global-menu.ep-open{display:block;animation:epMenuIn .24s ease-out}@keyframes epMenuIn{from{opacity:0;transform:translateY(-8px) scale(.98)}to{opacity:1;transform:none}}#ep-global-menu .ep-menu-head{display:flex;align-items:center;gap:12px;padding-bottom:14px;border-bottom:1px solid #bba36b55}#ep-global-menu .ep-menu-head img{width:48px;height:48px;border-radius:50%;object-fit:cover}#ep-global-menu .ep-menu-head strong{display:block;color:#f5dca0;font:600 17px Georgia,serif}#ep-global-menu .ep-menu-head small{color:#c3b79f}#ep-global-menu .ep-menu-close{margin-left:auto;background:transparent;border:0;color:#e8d6ac;font-size:26px;cursor:pointer}#ep-global-menu .ep-intro{color:#d2c7b4;margin:13px 0 15px}#ep-global-menu .ep-label{font-size:10px;letter-spacing:.18em;color:#c8ad6d;margin-bottom:8px}#ep-global-menu .ep-links{display:grid;gap:7px}#ep-global-menu .ep-links a{display:flex;align-items:center;gap:11px;text-decoration:none;color:#f3e6ca;border:1px solid #d8c18b24;background:#ffffff06;border-radius:10px;padding:11px 12px;transition:background .2s,border-color .2s}#ep-global-menu .ep-links a:hover{background:#d5b76a18;border-color:#d5b76a88}#ep-global-menu .ep-links .ep-sigil{width:25px;text-align:center;color:#e3c77e;font-size:18px}#ep-global-menu .ep-links .ep-arrow{margin-left:auto;color:#c8ad6d}#ep-global-menu .ep-foot{font-size:11px;color:#a99e8a;margin-top:13px;text-align:center}#ep-global-loading{display:none!important;position:fixed;inset:0;z-index:2147483002;display:none;place-items:center;overflow:hidden;background:radial-gradient(ellipse at 50% 42%,#29233b 0%,#11101d 48%,#06070c 100%);color:#f3e2b6;text-align:center;font-family:Georgia,serif}#ep-global-loading.ep-show{display:grid;animation:epFadeIn .25s ease}@keyframes epFadeIn{from{opacity:0}to{opacity:1}}#ep-global-loading .ep-stars{position:absolute;inset:0;opacity:.65;background-image:radial-gradient(1px 1px at 8% 18%,#fff 50%,transparent 60%),radial-gradient(2px 2px at 76% 25%,#e7d4a1 50%,transparent 60%),radial-gradient(1px 1px at 45% 70%,#fff 50%,transparent 60%),radial-gradient(1px 1px at 89% 82%,#fff 50%,transparent 60%),radial-gradient(1px 1px at 24% 88%,#e7d4a1 50%,transparent 60%);background-size:190px 170px,230px 210px,170px 200px,210px 180px,240px 230px;animation:epStars 18s linear infinite}@keyframes epStars{to{background-position:190px 170px,-230px 210px,170px -200px,-210px 180px,240px -230px}}#ep-global-loading .ep-load-card{position:relative;width:min(440px,90vw);padding:32px 22px;border:1px solid #c7a86a77;border-radius:24px;background:linear-gradient(160deg,#171523d9,#0b0b12e8);box-shadow:0 20px 100px #000a,0 0 55px #c3a45d12}#ep-global-loading .ep-crest{font-size:27px;color:#d6b66d;animation:epGlow 2s ease-in-out infinite alternate}#ep-global-loading .ep-brand{font:11px system-ui,sans-serif;letter-spacing:.23em;text-transform:uppercase;color:#d1bd8e;margin:12px 0}#ep-global-loading h2{font-size:clamp(25px,5vw,36px);font-weight:normal;margin:7px 0 8px}#ep-global-loading p{font:13px/1.5 system-ui,sans-serif;color:#c8bca8;margin:0}#ep-global-loading .ep-portrait{display:block;width:104px;height:104px;object-fit:cover;border-radius:50%;margin:22px auto 17px;border:1px solid #d4b46a;box-shadow:0 0 0 7px #d4b46a0d,0 0 30px #d4b46a2a}#ep-global-loading .ep-progress{height:3px;background:#ffffff18;border-radius:5px;overflow:hidden;margin:20px auto 10px;width:75%}#ep-global-loading .ep-progress span{display:block;width:40%;height:100%;background:linear-gradient(90deg,#8e7440,#f2dca0,#8e7440);animation:epProgress 1.3s ease-in-out infinite alternate}#ep-global-loading .ep-status{font:10px system-ui,sans-serif;letter-spacing:.14em;text-transform:uppercase;color:#bca875}#ep-global-loading .ep-skip{position:absolute;right:14px;top:13px;background:transparent;border:1px solid #c7a86a66;color:#e8d6ac;border-radius:99px;padding:8px 12px;font:10px system-ui,sans-serif;letter-spacing:.12em;cursor:pointer}@keyframes epProgress{from{transform:translateX(-80%)}to{transform:translateX(230%)}}@keyframes epGlow{to{text-shadow:0 0 20px #e5ca80;transform:scale(1.06)}}@media(max-width:520px){#ep-global-dobby{right:10px;top:10px;padding:6px 11px 6px 6px;font-size:11px}#ep-global-dobby img{width:34px;height:34px}#ep-global-menu{right:10px;top:62px}}@media(prefers-reduced-motion:reduce){#ep-global-menu,#ep-global-loading,#ep-global-loading *{animation:none!important;transition:none!important}}
+</style>
+
+<style id="EPISTEME-dobby-loader-css">
+#epistemeDobbyLoader{position:fixed;inset:0;z-index:2147483647;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:15px;background:radial-gradient(ellipse at 50% 40%,#143a50,#03070d 72%);color:#eaf8ff;opacity:1;visibility:visible;pointer-events:auto;transition:opacity .85s ease,visibility .85s ease;font-family:Georgia,serif;text-align:center;padding:25px;box-sizing:border-box}#epistemeDobbyLoader.is-hidden{opacity:0;visibility:hidden;pointer-events:none}#epistemeDobbyLoader .dobby-frame{width:clamp(145px,42vw,210px);aspect-ratio:1;border-radius:50%;overflow:hidden;border:1px solid #d6bd82;padding:5px;box-shadow:0 0 0 7px #c3eaff0b,0 0 45px #8fdcff35;position:relative}#epistemeDobbyLoader .dobby-frame:after{content:"";position:absolute;inset:-3px;border:1px solid #a8d9f480;border-radius:50%;animation:epDobbyRotate 5s linear infinite;pointer-events:none}#epistemeDobbyLoader img{width:100%;height:100%;object-fit:cover;object-position:center 25%;border-radius:50%;display:block;filter:none;animation:epDobbyFloat 2.2s ease-in-out infinite}#epistemeDobbyLoader .edl-title{font-size:clamp(28px,8vw,43px);font-weight:400;letter-spacing:.16em;color:#eaf8ff;text-shadow:0 0 24px #9adfff75}#epistemeDobbyLoader .edl-sub{font:10px Arial,sans-serif;letter-spacing:.24em;color:#d6bd82;text-transform:uppercase}#epistemeDobbyLoader .edl-track{width:min(240px,72vw);height:4px;background:#d4edff22;overflow:hidden;margin-top:7px;border-radius:99px}#epistemeDobbyLoader .edl-track:after{content:"";display:block;height:100%;width:40%;background:linear-gradient(90deg,#9c78ed,#f4d67e,#9c78ed);animation:epDobbySweep 1.5s ease-in-out infinite}@keyframes epDobbySweep{from{transform:translateX(-120%)}to{transform:translateX(360%)}}@keyframes epDobbyRotate{to{transform:rotate(360deg)}}@keyframes epDobbyFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}@media(prefers-reduced-motion:reduce){#epistemeDobbyLoader *,#epistemeDobbyLoader:after{animation:none!important;transition:none!important}}</style>
+<style id="EPISTEME-unified-header-css">body{padding-top:76px!important}.ep-unified-header{position:fixed;z-index:2147483000;left:0;right:0;top:0;min-height:68px;display:flex;align-items:center;justify-content:space-between;gap:14px;padding:9px clamp(14px,3vw,34px);background:linear-gradient(100deg,rgba(7,11,16,.97),rgba(17,18,28,.94));border-bottom:1px solid #d8b77977;box-shadow:0 8px 30px #0005;backdrop-filter:blur(14px);font-family:Georgia,serif}.ep-unified-brand{display:flex;align-items:center;gap:11px;color:#f2dfb0;text-decoration:none;min-width:0}.ep-unified-brand img{width:47px;height:47px;object-fit:contain;border-radius:50%;border:1px solid #d8b779;padding:3px;background:#111}.ep-unified-brand strong{display:block;font-size:clamp(17px,2.5vw,24px);letter-spacing:.12em}.ep-unified-brand small{display:block;font:9px system-ui,sans-serif;letter-spacing:.2em;color:#c7b99c;margin-top:3px}.ep-menu-toggle{display:flex;align-items:center;gap:8px;border:1px solid #d8b779;border-radius:999px;padding:6px 13px 6px 6px;background:#121722;color:#f2dfb0;cursor:pointer;font:11px system-ui,sans-serif;letter-spacing:.07em}.ep-menu-toggle img{width:35px;height:35px;object-fit:cover;border-radius:50%}.ep-unified-menu{position:fixed;z-index:2147483001;right:14px;top:78px;width:min(360px,calc(100vw - 28px));max-height:calc(100dvh - 95px);overflow:auto;padding:17px;border:1px solid #d8b779;border-radius:18px;background:linear-gradient(145deg,#1b1b28f7,#071018f8);color:#f3e5c7;box-shadow:0 20px 70px #000b;font:13px/1.5 system-ui,sans-serif}.ep-unified-menu[hidden]{display:none}.ep-unified-menu h3{font:21px Georgia,serif;color:#f2dfb0;margin:0 0 5px}.ep-unified-menu p{margin:0 0 12px;color:#c9c0b0}.ep-unified-menu a{display:flex;gap:10px;align-items:center;padding:10px 11px;margin-top:6px;border:1px solid #d8b77933;border-radius:10px;color:#f3e5c7;text-decoration:none;background:#ffffff06}.ep-unified-menu a:hover{background:#d8b7791c}.ep-global-full{position:fixed;inset:0;z-index:2147483002;display:grid;place-items:center;background:radial-gradient(ellipse at center,#173344,#03070d 72%);color:#eaf8ff;text-align:center;padding:22px;font-family:Georgia,serif}.ep-global-full[hidden]{display:none}.ep-global-full .ep-loader-card{width:min(400px,94vw);padding:28px 22px;border:1px solid #d8b779;border-radius:23px;background:#090f18eF;box-shadow:0 20px 70px #000b}.ep-global-full img{width:112px;height:112px;object-fit:cover;border-radius:50%;border:1px solid #d8b779;margin:16px auto;display:block}.ep-global-full h2{font-weight:400;letter-spacing:.12em}.ep-global-full p{color:#d4c6aa}.ep-loader-line{height:3px;width:70%;margin:20px auto 0;background:#ffffff20;overflow:hidden}.ep-loader-line:after{content:"";display:block;width:40%;height:100%;background:#f2dfb0;animation:epLoadLine 1.2s infinite alternate}@keyframes epLoadLine{from{transform:translateX(-100%)}to{transform:translateX(250%)}}.ep-small-loader{position:fixed;z-index:2147483003;left:50%;bottom:18px;transform:translateX(-50%);padding:11px 17px;border:1px solid #d8b779;border-radius:99px;background:#11131df2;color:#f2dfb0;font:12px system-ui,sans-serif;box-shadow:0 8px 30px #0008}.ep-small-loader[hidden]{display:none}@media(max-width:540px){.ep-unified-brand img{width:39px;height:39px}.ep-unified-header{min-height:62px}.ep-menu-toggle span{display:none}body{padding-top:68px!important}}@media(prefers-reduced-motion:reduce){.ep-loader-line:after{animation:none}}</style>
+
+
+
+<style id="remove-all-loading-screens">#ep-global-loading,#epistemeDobbyLoader,#ep-dobby-preload,.ep-global-full,.ep-small-loader,#EPISTEME-loader,#dobbyLoader,.dobby-loader,.page-loader,.loading-screen,.loading-overlay,.loader-overlay,.loadingOverlay,.loadingScreen,.preloader,.pre-loader,.pageLoading,.page-loading,.marauders-loading,.marauder-loader,[data-loading-screen],[data-loader],#loadingScreen,#loading-screen,#loader,#preloader{display:none!important;visibility:hidden!important;opacity:0!important;pointer-events:none!important}html,body{--ep-loading-disabled:1}</style>
+<style id="disable-all-loading-ui">
+/* Global cleanup: no page-level or inline loading overlays */
+#loader, #loading, #loading-screen, #loadingScreen, #preloader, #pre-loader, #dobby-loader, #hedwig-loader, #page-loader, #global-loader, .loader, .loading, .loading-screen, .loadingScreen, .loading-overlay, .loadingOverlay, .preloader, .pre-loader, .dobby-loader, .hedwig-loader, .page-loader, .global-loader, .route-loader, .navigation-loader, [data-loader], [data-loading-screen] { display:none !important; visibility:hidden !important; opacity:0 !important; pointer-events:none !important; animation:none !important; }
+</style>
+
+<style id="EPISTEME-book-visibility-faculty-fix">
+/* Keep the book overlay above the fixed site header so the cover and page two are not obscured. */
+#bookModal{z-index:2147483002!important;padding-top:max(82px,calc(env(safe-area-inset-top) + 76px))!important;align-items:flex-start!important;}
+#bookModal.open{display:flex!important;visibility:visible!important;opacity:1!important;}
+#bookModal .book-shell{position:relative!important;z-index:2!important;width:min(92vw,520px)!important;margin:18px auto 34px!important;flex-shrink:0!important;}
+#bookModal #spread,#bookModal #rightPage{display:flex!important;visibility:visible!important;opacity:1!important;overflow:visible!important;}
+#bookModal #rightPage{flex-direction:column!important;gap:14px!important;}
+#bookModal .page.right{display:flex!important;position:relative!important;visibility:visible!important;opacity:1!important;min-height:clamp(390px,62dvh,560px)!important;height:auto!important;overflow:visible!important;flex-shrink:0!important;}
+#bookModal .page.logo-page{display:flex!important;min-height:clamp(390px,62dvh,560px)!important;}
+#bookModal .faculty-portrait-grid{display:flex!important;flex-direction:column!important;gap:14px!important;width:100%!important;}
+#bookModal .faculty-portrait-card{display:flex!important;flex-direction:row!important;align-items:center!important;gap:14px!important;width:100%!important;min-width:0!important;}
+/* Every circular faculty photo slot is at least 3 cm in diameter. */
+#bookModal .faculty-portrait{box-sizing:border-box!important;flex:0 0 3cm!important;width:3cm!important;min-width:3cm!important;height:3cm!important;min-height:3cm!important;aspect-ratio:1!important;border-radius:50%!important;overflow:hidden!important;}
+#bookModal .faculty-portrait img{width:100%!important;height:100%!important;object-fit:cover!important;border-radius:50%!important;}
+#bookModal .faculty-portrait-name{min-width:0!important;overflow-wrap:anywhere!important;font-size:clamp(.72rem,2.8vw,.9rem)!important;}
+.close-book{z-index:2147483005!important;}
+@media(max-width:480px){#bookModal{padding-left:10px!important;padding-right:10px!important}.close-book{top:max(8px,env(safe-area-inset-top))!important;right:8px!important}.book-shell{width:94vw!important}#bookModal .faculty-portrait{flex-basis:3cm!important;width:3cm!important;min-width:3cm!important;height:3cm!important;min-height:3cm!important}}
+</style>
+
+
+<style id="EPISTEME-mobile-book-scroll-final-fix">
+/* The book itself must be the scroll container: keep every page reachable from the top on mobile. */
+html,body{overscroll-behavior-y:auto!important}
+#bookModal{position:fixed!important;inset:0!important;display:none;align-items:flex-start!important;justify-content:flex-start!important;flex-direction:column!important;box-sizing:border-box!important;height:100dvh!important;max-height:100dvh!important;overflow-x:hidden!important;overflow-y:auto!important;-webkit-overflow-scrolling:touch!important;touch-action:pan-y!important;padding:calc(env(safe-area-inset-top,0px) + 84px) 12px calc(env(safe-area-inset-bottom,0px) + 28px)!important;scroll-padding-top:calc(env(safe-area-inset-top,0px) + 84px)!important;}
+#bookModal.open{display:flex!important}
+#bookModal .book-shell{width:min(94vw,520px)!important;max-width:100%!important;height:auto!important;min-height:0!important;max-height:none!important;overflow:visible!important;flex:0 0 auto!important;margin:8px auto 36px!important;transform:none;}
+#bookModal #spread,#bookModal #rightPage{position:relative!important;display:flex!important;flex-direction:column!important;gap:14px!important;width:100%!important;height:auto!important;min-height:0!important;max-height:none!important;overflow:visible!important;flex:0 0 auto!important;}
+#bookModal .page,#bookModal .page.right,#bookModal .page.logo-page{display:flex!important;position:relative!important;visibility:visible!important;opacity:1!important;height:auto!important;min-height:clamp(430px,65dvh,650px)!important;max-height:none!important;overflow:visible!important;flex:0 0 auto!important;scroll-margin-top:100px!important;}
+#bookModal #closeBook{position:fixed!important;top:calc(env(safe-area-inset-top,0px) + 10px)!important;right:12px!important;z-index:2147483647!important;}
+@media(max-width:600px){#bookModal{padding-left:10px!important;padding-right:10px!important}#bookModal .book-shell{width:calc(100vw - 20px)!important;margin-top:8px!important}#bookModal .page{min-height:62dvh!important}}
+</style>
+
+<style id="faculty-photo-slot-fix">#bookModal .faculty-portrait{position:relative;overflow:hidden}#bookModal .faculty-portrait .faculty-photo-slot-image{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border-radius:50%;z-index:2}#bookModal .faculty-portrait.has-photo svg{display:none}</style></head>
+<body>
+<section id="magicLoader" aria-live="polite"><div class="loader-mark">✦</div><div class="loader-title">THE WINGS OF EPISTEME</div><div class="loader-sub">The library is awakening</div><div class="loader-track"><div id="loaderProgress"></div></div><div id="loaderStatus">Gathering enchanted pages…</div></section>
+<section id="intro" aria-label="Welcome to EPISTEME Wings">
+  <h1>WELCOME TO<br>EPISTEME WINGS</h1>
+  <div class="subtitle">Four paths · One community</div>
+  <div class="owl-wrap"><img id="owl" src="assets/owl.webp" alt="Owl with wings fully spread"/></div>
+  <div class="enter-hint">THE LIBRARY AWAITS · TAP TO ENTER</div>
+</section>
+<main id="app" aria-label="The Wings of EPISTEME">
+  <div class="ambient" id="ambient"></div>
+  <header class="topbar">
+    <div class="brand">THE WINGS OF EPISTEME</div>
+    <div class="tagline">Choose a book. Discover your path.</div>
+  </header>
+  <section class="library">
+    <p class="prompt">✧ The books have been waiting for you ✧</p>
+    <div class="book-grid">
+      <button type="button" class="book-card" style="--glow:#38d58c;--book:#13754c" data-wing="COGNITIVA" aria-label="Open COGNITIVA book">
+        <img class="book-img" src="assets/COGNITIVA-book.webp" alt="COGNITIVA enchanted book"/><span class="book-name">COGNITIVA</span><span class="book-desc">Academic Learning & Innovation</span>
+      </button>
+      <button type="button" class="book-card" style="--glow:#f25d72;--book:#9b2338" data-wing="VIVARA" aria-label="Open VIVARA book">
+        <img class="book-img" src="assets/VIVARA-book.webp" alt="VIVARA enchanted book"/><span class="book-name">VIVARA</span><span class="book-desc">Learning & Intellectual Expression</span>
+      </button>
+      <button type="button" class="book-card" style="--glow:#3f9eff;--book:#174f9b" data-wing="REVELA" aria-label="Open REVELA book">
+        <img class="book-img" src="assets/REVELA-book.webp" alt="REVELA enchanted book"/><span class="book-name">REVELA</span><span class="book-desc">Research & Discovery</span>
+      </button>
+      <button type="button" class="book-card" style="--glow:#c15cff;--book:#622a91" data-wing="ARTERA" aria-label="Open ARTERA book">
+        <img class="book-img" src="assets/ARTERA-book.webp" alt="ARTERA enchanted book"/><span class="book-name">ARTERA</span><span class="book-desc">Creative Arts & Expression</span>
+      </button>
+    </div>
+    <a class="join-wings-btn" id="joinWingsBtn" href="../join-EPISTEME/index.html">✦ JOIN THE WINGS ✦</a>
+  </section>
+</main>
+<button type="button" class="close-book" id="closeBook" hidden>✕ Close book</button>
+<div id="bookModal" role="dialog" aria-modal="true" aria-label="Wing information book">
+  <div class="modal-stars"></div>
+  <div class="book-shell" id="bookShell">
+    <div class="book-spread"></div>
+    <div class="book-spread" id="spread">
+      <div id="leftPage" hidden></div>
+      <div id="rightPage" class="page-stack"></div>
+    </div>
+    <div class="turn-sheet" id="turnSheet"><div class="sheet-front" id="sheetFront"></div><div class="sheet-back" id="sheetBack"></div></div>
+    <div class="opening-cover" id="openingCover" aria-hidden="true"><div class="cover-front"><span class="cover-star">✦</span><span class="cover-title" id="coverTitle">EPISTEME</span><span class="cover-subtitle">THE WING ARCHIVES</span><span class="cover-ornament">❦</span></div><div class="cover-back"></div></div>
+    <div class="book-controls"><span class="page-count">✧ Explore the four pages of this wing ✧</span></div>
+  </div>
+</div>
+<script>
+const WINGS = {
+ COGNITIVA:{
+  name:'COGNITIVA', focus:'Academic Learning & Innovation', logo:'assets/COGNITIVA-logo.webp', color:'#16784e',
+  purpose:'Think deeper. Learn actively. Explore beyond memorisation. COGNITIVA brings together students who enjoy understanding concepts, testing their knowledge, and solving problems. It promotes engaging, collaborative, and innovative approaches to academic learning, encouraging curiosity and analytical thinking.',
+  aims:['Build conceptual understanding, curiosity, and analytical thinking.','Encourage collaborative learning and problem-solving beyond memorisation.','Explore innovative ways to understand, apply, and explain knowledge.'],
+  activities:['Academic quizzes, themed knowledge challenges, and inter-batch competitions.','Concept maps, case-based discussions, and puzzle sessions.','Interactive learning games and student-led explainers.','Revision resources, academic presentations, and interdisciplinary learning activities.'],
+  join:['Suggest topics, frame quiz questions, or help organise academic activities.','Create concept explainers and learning resources.','Previous quiz competition experience is not essential.'],
+  faculty:['Dr. Viveka M — Department of Biochemistry','Dr. Bragadeeshwaran N — Department of Paediatrics'],
+  summary:['Academic learning through curiosity, collaboration, and innovation.','Quizzes, cases, concept maps, puzzles, and student-led explainers.','Join by suggesting topics, writing questions, or creating learning resources.'], pageSummaries:[['COGNITIVA: Academic Learning & Innovation.'],['Think deeper, learn actively, and explore beyond memorisation.'],['Quizzes, concept maps, case discussions, puzzles, and learning games.'],['Suggest topics, frame questions, or create explainers; no prior quiz experience is needed.']],
+  tagline:'Think deeper. Learn actively. Explore beyond memorisation.', description:'COGNITIVA brings together students who enjoy understanding concepts, testing their knowledge, and solving problems. It promotes engaging, collaborative, and innovative approaches to academic learning, encouraging curiosity and analytical thinking.', activities:['Academic quizzes, themed knowledge challenges, and inter-batch competitions', 'Concept maps, case-based discussions, and puzzle sessions', 'Interactive learning games and student-led explainers', 'Revision resources, academic presentations, and interdisciplinary learning activities'], joinText:'Suggest topics, frame quiz questions, help organise academic activities, or create concept explainers and learning resources. Previous quiz competition experience is not essential.',
+ },
+ VIVARA:{
+  name:'VIVARA', focus:'Learning & Intellectual Expression', logo:'assets/VIVARA-logo.webp', color:'#9b2338',
+  purpose:'Discover the world of words, ideas, and expression. VIVARA is a space for students who enjoy language, literature, discussion, and expressing their thoughts clearly. It encourages critical thinking, meaningful dialogue, and the ability to communicate ideas with clarity and purpose.',
+  aims:['Encourage language, literature, and clear expression of ideas.','Develop critical thinking, meaningful dialogue, and respectful discussion.','Build confidence in communicating thoughts with clarity and purpose.'],
+  activities:['Literary and creative-writing challenges.','Debates, panel discussions, and book or article discussions.','Storytelling, word games, and language-based activities.','Short talks, student essays, and reflective writing.'],
+  join:['Share your writing or suggest discussion topics.','Contribute as a speaker, host, editor, reviewer, or organiser.','Begin as a learner and develop skills through practice and feedback.'],
+  faculty:['Dr. Gokila Rani S — Department of Psychiatry','Dr. Srividhya M — Department of Microbiology','Dr. Sriram C K — Department of Dermatology','Prof. Dr. Rajendran T — Guest Faculty, Department of Microbiology','Prof. Dr. Ramesh A — Guest Faculty, Department of Microbiology'],
+  summary:['Language, literature, ideas, and intellectual expression.','Creative writing, debates, storytelling, word games, and reflective writing.','Join as a learner, writer, speaker, host, editor, reviewer, or organiser.'], pageSummaries:[['VIVARA: Learning & Intellectual Expression.'],['Discover the world of words, ideas, and expression.'],['Literary challenges, debates, storytelling, language activities, and reflective writing.'],['Share writing or discussion topics; contribute as a speaker, host, editor, reviewer, or organiser.']],
+  tagline:'Discover the world of words, ideas, and expression.', description:'VIVARA is a space for students who enjoy language, literature, discussion, and expressing their thoughts clearly. It encourages critical thinking, meaningful dialogue, and the ability to communicate ideas with clarity and purpose.', activities:['Literary and creative-writing challenges', 'Debates, panel discussions, and book or article discussions', 'Storytelling, word games, and language-based activities', 'Short talks, student essays, and reflective writing'], joinText:'Share your writing, suggest discussion topics, or contribute as a speaker, host, editor, reviewer, or organiser. You can begin as a learner and develop your skills through practice and feedback.',
+ },
+ REVELA:{
+  name:'REVELA', focus:'Research & Discovery', logo:'assets/REVELA-logo.webp', color:'#174f9b',
+  purpose:'Question what is known. Explore what is possible. REVELA introduces students to the world of research and scientific discovery. It encourages curiosity, evidence-informed thinking, and responsible inquiry while helping students understand how scientific knowledge is developed, evaluated, and communicated.',
+  aims:['Explore how scientific knowledge is developed, evaluated, and communicated.','Build evidence-informed thinking, curiosity, and responsible inquiry.','Understand research ethics, integrity, and responsible data handling.'],
+  activities:['Research-awareness talks and paper-reading sessions.','Journal-club-style discussions and literature-search workshops.','Research idea pitches and evidence-appraisal exercises.','Scientific poster showcases and workshops on referencing and research communication.','Sessions on research ethics, integrity, and responsible data handling.'],
+  join:['Bring forward a research question or volunteer to summarise a paper.','Help prepare scientific posters, presentations, and research-related activities.','No prior research experience is required for introductory sessions.'],
+  faculty:['Dr. Muthu Meera R — Department of Pharmacology','Dr. Shantha Sheela Kumari — Department of Community Medicine'],
+  summary:['Research awareness, discovery, and evidence-informed thinking.','Paper discussions, literature searches, research pitches, and scientific posters.','Join with a research question, paper summary, or research communication task.'], pageSummaries:[['REVELA: Research & Discovery.'],['Question what is known and explore what is possible.'],['Paper reading, journal discussions, literature searches, research pitches, and posters.'],['Bring a question or help with scientific communication; no prior research experience is required.']],
+  tagline:'Question what is known. Explore what is possible.', description:'REVELA introduces students to the world of research and scientific discovery. It encourages curiosity, evidence-informed thinking, and responsible inquiry while helping students understand how scientific knowledge is developed, evaluated, and communicated.', activities:['Research-awareness talks and paper-reading sessions', 'Journal-club-style discussions and literature-search workshops', 'Research idea pitches and evidence-appraisal exercises', 'Scientific poster showcases and workshops on referencing and research communication', 'Sessions on research ethics, integrity, and responsible data handling'], joinText:'Bring forward a research question, volunteer to summarise a paper, or help prepare scientific posters, presentations, and research-related activities. No prior research experience is required for introductory sessions.',
+ },
+ ARTERA:{
+  name:'ARTERA', focus:'Creative Arts & Expression', logo:'assets/ARTERA-logo.webp', color:'#7a319d',
+  purpose:'Imagine. Create. Express. Collaborate. ARTERA celebrates creativity in its many forms, offering students a space to explore artistic interests through performance, design, visual arts, and digital media. It encourages creative expression, confidence, teamwork, and meaningful participation in campus life.',
+  aims:['Explore artistic interests through creative practice and collaboration.','Build confidence, teamwork, and creative expression.','Encourage meaningful participation in campus life through arts and media.'],
+  activities:['Music, dance, theatre, and poetry performances.','Visual arts, design, and creative challenges.','Photography, videography, and short-form video.','Poster design, creative storytelling, and collaborative productions.','Opportunities in scripting, editing, stage management, and documentation.'],
+  join:['Contribute as a performer, designer, writer, photographer, editor, or organiser.','Volunteer to explore a new creative role.','Artistic experience is welcome, but enthusiasm and responsible teamwork matter just as much.'],
+  faculty:['Dr. Nandhini Devi S — Department of Pharmacology','Dr. Santosh Kumar D — Department of Psychiatry','Dr. Sidharth S — Department of Forensic Medicine'],
+  summary:['Creative arts, performance, design, visual arts, and digital media.','Music, dance, theatre, photography, video, posters, and collaborative productions.','Join as a creator or volunteer to explore a new role; teamwork and enthusiasm matter.'], pageSummaries:[['ARTERA: Creative Arts & Expression.'],['Imagine, create, express, and collaborate.'],['Music, dance, theatre, visual arts, photography, video, and creative productions.'],['Contribute as a performer, designer, writer, photographer, editor, or organiser.']],
+  tagline:'Imagine. Create. Express. Collaborate.', description:'ARTERA celebrates creativity in its many forms, offering students a space to explore artistic interests through performance, design, visual arts, and digital media. It encourages creative expression, confidence, teamwork, and meaningful participation in campus life.', activities:['Music, dance, theatre, and poetry performances', 'Visual arts, design, and creative challenges', 'Photography, videography, and short-form video', 'Poster design, creative storytelling, and collaborative productions', 'Opportunities in scripting, editing, stage management, and documentation'], joinText:'Contribute as a performer, designer, writer, photographer, editor, or organiser. You can also volunteer to explore a new creative role. Artistic experience is welcome, but enthusiasm and responsible teamwork matter just as much.',
+ }
+};
+const intro=document.getElementById('intro'), app=document.getElementById('app'), modal=document.getElementById('bookModal');
+let currentWing=null, drawing=false, strokePoints=[], startX=0, startY=0, moved=false;
+const pageData = (w)=>{
+ const livePages = renderLiveWingPages(w); if(livePages) return livePages;
+ const people = w.faculty.map((person)=>`<div class="faculty-portrait-card"><div class="faculty-portrait" role="img" aria-label="Photo placeholder for ${person.replace(/"/g,'&quot;')}"><img class="faculty-photo-slot-image" hidden alt=""><svg viewBox="0 0 64 64" aria-hidden="true"><path d="M32 5C35 20 44 29 59 32C44 35 35 44 32 59C29 44 20 35 5 32C20 35 29 44 32 59Z"/></svg></div><div class="faculty-portrait-name">${person}<span class="faculty-photo-hint">Faculty photo</span></div></div>`);
+ while(people.length < (w.name==='VIVARA'?5:w.faculty.length)) people.push(`<div class="faculty-portrait-card"><div class="faculty-portrait" role="img" aria-label="Additional round faculty photo placeholder"><svg viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="21" r="12"/><path d="M10 57c1-13 10-20 22-20s21 7 22 20"/></svg></div><div class="faculty-portrait-name">Additional Faculty<span class="faculty-photo-hint">Add name and photo in Admin</span></div></div>`);
+ return [
+  `<div class="eyebrow">EPISTEME · WING ARCHIVE</div><img src="${w.logo}" alt="${w.name} logo"><h2>${w.name}</h2><p>${w.focus}</p><div class="cover-rule"></div><p class="cover-tagline">${w.tagline}</p><div class="page-no">01 · THE COVER</div>`,
+  `<div class="eyebrow">Discover the wing</div><h2>${w.name}</h2><h3>${w.focus}</h3><p class="page-writing">${w.description}</p><div class="page-no">02 · ABOUT ${w.name}</div>`,
+  `<div class="eyebrow">Explore the possibilities</div><h2>What does ${w.name} offer?</h2><ul>${w.activities.map(x=>`<li class="page-writing">${x}</li>`).join('')}</ul><div class="page-no">03 · WHAT WE OFFER</div>`,
+  `<div class="eyebrow">Your place in the story</div><h2>Be a part of ${w.name}</h2><p class="page-writing">${w.joinText}</p><h3>Faculty In-Charges</h3><div class="faculty-portrait-grid">${people.join('')}</div><div class="page-no">04 · JOIN THE JOURNEY</div>`
+ ];
+};
+
+// Live, admin-published Wings book overlay. The default content above remains the offline fallback.
+let liveWingOverlay = null;
+const wingEscape = value => String(value ?? '').replace(/[&<>"']/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
+function renderEditableWingPage(page, wingName, index){
+ const blocks = Array.isArray(page?.blocks) ? page.blocks : [];
+ const body = blocks.map(block => {
+  if(block.type==='heading'){const level=Math.min(3,Math.max(2,Number(block.level)||2));return `<h${level}>${wingEscape(block.text||'')}</h${level}>`;}
+  if(block.type==='text') return `<p class="page-writing">${wingEscape(block.text||'')}</p>`;
+  if(block.type==='divider') return '<div class="cover-rule"></div>';
+  if(block.type==='list') return `<ul>${(block.items||[]).map(item=>`<li class="page-writing">${wingEscape(item)}</li>`).join('')}</ul>`;
+  if(block.type==='image') {const url=String(block.url||'');const ratio=String(block.ratio||'1/1');const fit=block.fit==='contain'?'contain':'cover';return `<figure class="wing-content-image" style="aspect-ratio:${wingEscape(ratio)}"><img src="${wingEscape(url)}" alt="${wingEscape(block.label||wingName)}" style="object-fit:${fit}" onerror="this.style.display='none';this.parentElement.classList.add('image-placeholder')"><figcaption>${wingEscape(block.caption||'')}</figcaption></figure>`;}
+  if(block.type==='faculty') {const people=(block.people||[]).filter(p=>p.visible!==false);return `<div class="faculty-portrait-grid">${people.map(person=>{const url=person.imageUrl||person.url||'';const ratio=person.ratio||block.ratio||'1/1';const name=person.name||'Faculty photo placeholder';const dep=person.department||person.role||'Add details in Admin';return `<div class="faculty-portrait-card"><div class="faculty-portrait" style="aspect-ratio:${wingEscape(ratio)};border-radius:${ratio==='1/1'?'50%':'12px'};overflow:hidden">${url?`<img src="${wingEscape(url)}" alt="${wingEscape(name)}" style="width:100%;height:100%;object-fit:cover;object-position:${Number(person.x??50)}% ${Number(person.y??50)}%;transform:scale(${Math.max(.5,Math.min(3,Number(person.zoom)||1))})" onerror="this.style.display='none';this.nextElementSibling.hidden=false">`:''}<span class="faculty-placeholder-mark" ${url?'hidden':''} aria-label="Photo placeholder">✧</span></div><div class="faculty-portrait-name">${wingEscape(name)}<span class="faculty-photo-hint">${wingEscape(dep)}</span></div></div>`}).join('')}</div>`;}
+  return '';
+ }).join('');
+ return `<section class="page right ${index===0?'logo-page':''}" data-page="${index+1}">${page?.eyebrow?`<div class="eyebrow">${wingEscape(page.eyebrow)}</div>`:''}${body}<div class="page-no">${String(index+1).padStart(2,'0')} · ${wingEscape(page?.title||'WING ARCHIVE')}</div></section>`;
+}
+function renderLiveWingPages(wing){const data=liveWingOverlay?.wings?.[wing.name];if(!data||!Array.isArray(data.pages)||!data.pages.length)return null;return data.pages.map((page,i)=>renderEditableWingPage(page,wing.name,i));}
+async function loadPublishedWingOverlay(){try{if(!window.supabase||!window.EPISTEME_SUPABASE_CONFIG)return;const c=window.supabase.createClient(window.EPISTEME_SUPABASE_CONFIG.url,window.EPISTEME_SUPABASE_CONFIG.publishableKey);const {data,error}=await c.from('episteme_site_content').select('content_value').eq('content_key','wings_overlay_published').maybeSingle();if(error||!data?.content_value)return;let v=data.content_value;if(typeof v==='string')v=JSON.parse(v);if(v&&v.wings){liveWingOverlay=v;Object.keys(v.wings).forEach(key=>{if(WINGS[key]){const item=v.wings[key];WINGS[key].name=item.name||key;WINGS[key].focus=item.focus||WINGS[key].focus;WINGS[key].logo=item.logo||WINGS[key].logo;WINGS[key].color=item.color||WINGS[key].color;}});if(currentWing&&modal.classList.contains('open'))renderSpread();}}catch(e){console.warn('Wings overlay live content unavailable; using built-in content.',e);}}
+const wingImageCss=document.createElement('style');wingImageCss.textContent='.wing-content-image{margin:14px auto;max-width:100%;width:min(100%,280px);border:1px solid #b68d4b88;border-radius:12px;overflow:hidden;background:#fffaf0;display:grid;place-items:center}.wing-content-image img{width:100%;height:100%;max-height:320px}.wing-content-image figcaption{font-size:.72rem;color:#7d6030;text-align:center;padding:5px}.wing-content-image.image-placeholder{background:repeating-linear-gradient(135deg,#fffaf0,#fffaf0 10px,#efe1c4 10px,#efe1c4 20px);min-height:90px}.faculty-placeholder-mark{color:#9c7a40;font-size:1.5rem}.faculty-portrait img{display:block}';document.head.appendChild(wingImageCss);
+function renderPageContent(el, html){el.innerHTML=html; el.querySelectorAll('.page-writing').forEach((node,i)=>{node.style.animationDelay=(.15+i*.22)+'s'});}
+function openBook(key){
+ currentWing=WINGS[key];document.body.classList.add('book-open');modal.classList.add('open');document.getElementById('closeBook').hidden=false;document.body.style.overflow='hidden';modal.scrollTop=0;
+ renderSpread();modal.scrollTop=0;
+ const shell=document.getElementById('bookShell');shell.style.setProperty('--wing-glow',currentWing.color);
+ const cover=document.getElementById('openingCover');cover.classList.remove('opening');cover.style.display='block';document.getElementById('coverTitle').textContent=currentWing.name;void cover.offsetWidth;cover.classList.add('opening');setTimeout(()=>{cover.classList.remove('opening');cover.style.display='none';},1100);
+ shell.animate([{transform:'scale(.78) rotateY(12deg)',opacity:0},{transform:'scale(1) rotateY(0)',opacity:1}],{duration:550,easing:'cubic-bezier(.2,.8,.2,1)'});
+}
+function renderSpread(){
+ const d=pageData(currentWing),left=document.getElementById('leftPage'),right=document.getElementById('rightPage');
+ left.innerHTML='';
+ right.classList.remove('logo-page');
+ right.innerHTML=d.map((html,i)=>String(html).startsWith('<section')?html:`<section class="page right ${i===0?'logo-page':''}" data-page="${i+1}">${html}</section>`).join('');
+ right.querySelectorAll('.page-writing').forEach((node,i)=>{node.style.animationDelay=(.15+i*.12)+'s'});
+}
+document.querySelectorAll('.book-card').forEach(b=>b.addEventListener('click',()=>{if(b.classList.contains('spell-active'))return;document.querySelectorAll('.book-card.spell-active').forEach(x=>x.classList.remove('spell-active'));b.classList.remove('spell-active');void b.offsetWidth;b.classList.add('spell-active');setTimeout(()=>{b.classList.remove('spell-active');openBook(b.dataset.wing);},650);}));
+
+function closeWingBook(){modal.classList.remove('open');document.getElementById('closeBook').hidden=true;document.body.classList.remove('book-open');document.body.style.overflow='';modal.scrollTop=0;}
+document.getElementById('closeBook').addEventListener('click',closeWingBook);
+document.addEventListener('keydown',e=>{if(e.key==='Escape'){if(joinOverlays.some(id=>document.getElementById(id).classList.contains('show'))){showJoinOverlay('');return;}if(modal.classList.contains('open')){closeWingBook();}}});
+// Joining is handled by the dedicated Join EPISTEME page.
+function makeSparks(){const host=document.getElementById('ambient');for(let i=0;i<14;i++){let s=document.createElement('i');s.className='spark';s.style.left=Math.random()*100+'%';s.style.top=(55+Math.random()*60)+'%';s.style.setProperty('--dur',(7+Math.random()*10)+'s');s.style.animationDelay=(-Math.random()*15)+'s';host.appendChild(s);}}
+makeSparks();
+function enter(){intro.classList.add('leaving');setTimeout(()=>app.classList.add('ready'),450);}
+async function runMagicLoader(){
+ const loader=document.getElementById('magicLoader'),bar=document.getElementById('loaderProgress'),status=document.getElementById('loaderStatus');
+ const imgs=[...document.querySelectorAll('img')];let done=0;const total=Math.max(1,imgs.length);const started=Date.now();
+ const update=()=>{bar.style.width=Math.round(done/total*100)+'%';status.textContent=done>=total?'All pages are ready. The library awaits…':'Summoning enchanted illustrations '+done+' / '+total;};
+ await Promise.race([Promise.all(imgs.map(img=>new Promise(resolve=>{if(img.complete){done++;update();resolve();return;}img.addEventListener('load',()=>{done++;update();resolve();},{once:true});img.addEventListener('error',()=>{done++;update();resolve();},{once:true});}))),new Promise(resolve=>setTimeout(resolve,6500))]);
+ done=total;update();await new Promise(resolve=>setTimeout(resolve,Math.max(500,1500-(Date.now()-started))));loader.classList.add('gone');
+}
+runMagicLoader();
+setTimeout(enter,5900);
+intro.addEventListener('click',enter,{once:true});
+</script>
+<div id="epistemeDobbyLoader" role="status" aria-live="polite" aria-label="Dobby loading EPISTEME"><div class="dobby-frame"><img src="../shared-assets/dobby.webp" alt="Hedwig, guiding you through EPISTEME"></div><div class="edl-title">EPISTEME</div><div class="edl-sub">A little magic is on its way</div><div class="edl-track" aria-hidden="true"></div></div>
+<script id="EPISTEME-dobby-loader-script">(function(){const overlay=document.getElementById('epistemeDobbyLoader');if(!overlay)return;let hideTimer;function hide(){overlay.classList.add('is-hidden');}function show(){clearTimeout(hideTimer);overlay.classList.remove('is-hidden');}if(document.readyState==='complete')setTimeout(hide,650);else window.addEventListener('load',()=>setTimeout(hide,650),{once:true});hideTimer=setTimeout(hide,5000);document.addEventListener('click',function(e){const a=e.target.closest('a[href]');if(!a||e.defaultPrevented||e.button!==0||e.metaKey||e.ctrlKey||e.shiftKey||e.altKey||a.target==='_blank'||a.hasAttribute('download'))return;const href=a.getAttribute('href');if(!href||href.startsWith('#')||href.startsWith('mailto:')||href.startsWith('tel:')||href.startsWith('javascript:'))return;let dest;try{dest=new URL(href,location.href)}catch(_){return}if(dest.origin!==location.origin||dest.pathname===location.pathname)return;show();});window.addEventListener('pageshow',()=>{if(!document.hidden)hide();});})();</script>
+<script id="EPISTEME-unified-ui">(()=>{if(window.__epUnifiedHeader)return;window.__epUnifiedHeader=true;document.querySelectorAll('#ep-global-dobby,#ep-global-menu,#ep-global-loading').forEach(e=>e.remove());document.querySelectorAll('header.site-header,header.header').forEach(e=>e.style.display='none');const header=document.createElement('header');header.className='ep-unified-header';header.innerHTML='<a class="ep-unified-brand" href="../index.html?skipIntro=1" aria-label="EPISTEME home"><img src="../join-EPISTEME/assets/EPISTEME-logo.webp" alt="EPISTEME logo"><span><strong>EPISTEME</strong><small>LEARN · EXPLORE · EVOLVE</small></span></a><button class="ep-menu-toggle" type="button" aria-expanded="false"><img src="../shared-assets/dobby.webp" alt=""><span>OPEN MENU</span>⌄</button>';document.body.appendChild(header);const menu=document.createElement('nav');menu.className='ep-unified-menu';menu.hidden=true;menu.innerHTML='<h3>Dobby’s Helpful Menu</h3><p>Choose a destination. No AI chat — just a simple guide.</p><a href="../index.html?skipIntro=1">✦ Marauder’s Map</a><a href="../about.html">📜 About EPISTEME</a><a href="index.html">❦ The Four Wings</a><a href="../events.html">⚜ Events</a><a href="../core-team.html">♜ Core Coordinators</a><a href="../contacts.html">✉ Contacts</a><a href="../index.html?skipIntro=1#join-portal">✒ Join EPISTEME</a><a href="../game.html">♟ Play Game</a><a href="../astra.html">✧ ASTRA</a>';document.body.appendChild(menu);const toggle=header.querySelector('button');toggle.addEventListener('click',()=>{menu.hidden=!menu.hidden;toggle.setAttribute('aria-expanded',String(!menu.hidden))});document.addEventListener('click',e=>{if(!menu.contains(e.target)&&!header.contains(e.target)){menu.hidden=true;toggle.setAttribute('aria-expanded','false')}});const full=document.createElement('div');full.className='ep-global-full';full.hidden=true;full.innerHTML='<div class="ep-loader-card"><div>✧ · ✦ · ✧</div><h2>EPISTEME</h2><p class="ep-full-message">Dobby is preparing your next adventure…</p><img src="shared-assets/loading-portrait.webp" alt="Your magical guide"><div class="ep-loader-line"></div></div>';document.body.appendChild(full);const small=document.createElement('div');small.className='ep-small-loader';small.hidden=true;small.setAttribute('role','status');document.body.appendChild(small);window.EpistemeUI={showFull(message){full.querySelector('.ep-full-message').textContent=message||'A little magic is loading…';full.hidden=false},hideFull(){full.hidden=true},showSmall(message){small.textContent='✦ '+message;small.hidden=false},hideSmall(){small.hidden=true}};document.addEventListener('click',e=>{const a=e.target.closest('a[href]');if(!a||e.defaultPrevented||a.target==='_blank'||a.hasAttribute('download'))return;let u;try{u=new URL(a.href,location.href)}catch{return}if(u.origin!==location.origin||u.hash&&u.pathname===location.pathname||!(/\.html?$/i.test(u.pathname)))return;window.EpistemeUI.showFull('Dobby is preparing your next adventure…');setTimeout(()=>window.EpistemeUI.hideFull(),1600)});window.addEventListener('pageshow',()=>window.EpistemeUI.hideFull());})();</script>
+<style id="ep-central-loader-cleanup">#ep-global-loading,#epistemeDobbyLoader,#ep-dobby-preload,.ep-global-full,.ep-small-loader,#EPISTEME-loader,#dobbyLoader,.dobby-loader,.page-loader,.loading-screen{display:none!important;visibility:hidden!important;pointer-events:none!important}</style>
+
+<script id="disable-all-loading-ui-script">
+(()=>{
+ const selectors=['#loader','#loading','#loading-screen','#loadingScreen','#preloader','#pre-loader','#dobby-loader','#hedwig-loader','#page-loader','#global-loader','.loader','.loading','.loading-screen','.loadingScreen','.loading-overlay','.loadingOverlay','.preloader','.pre-loader','.dobby-loader','.hedwig-loader','.page-loader','.global-loader','.route-loader','.navigation-loader','[data-loader]','[data-loading-screen]'];
+ function removeLoaders(){document.querySelectorAll(selectors.join(',')).forEach(el=>{if(el.id==='global-star-trail'||el.classList.contains('magic-trail'))return; el.remove();});}
+ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',removeLoaders,{once:true});else removeLoaders();
+ new MutationObserver(removeLoaders).observe(document.documentElement,{childList:true,subtree:true});
+ document.addEventListener('click',e=>{const a=e.target.closest('a[href]');if(!a)return;try{const u=new URL(a.href,location.href);if(/(^|\/)loading\.html$/i.test(u.pathname)){e.preventDefault();const dest=u.searchParams.get('to')||u.searchParams.get('next')||'index.html';location.href=dest;}}catch(_){}},true);
+})();
+</script>
+
+<style id="EPISTEME-global-hedwig-loader">
+#ep-hedwig-loader{position:fixed;inset:0;z-index:2147483000;display:grid;place-items:center;background:rgba(5,4,10,.94);backdrop-filter:blur(7px);opacity:1;visibility:visible;transition:opacity .22s ease,visibility .22s ease}#ep-hedwig-loader.ep-hidden{opacity:0;visibility:hidden;pointer-events:none}#ep-hedwig-loader .ep-load-card{width:min(82vw,280px);padding:22px 20px 18px;text-align:center;border:1px solid #b99a57;border-radius:18px;background:radial-gradient(ellipse at top,#292036,#0c0a11 72%);box-shadow:0 0 26px #c9a65c22}#ep-hedwig-loader .ep-magic{width:2.5cm;height:2.5cm;margin:0 auto 13px;border:1px solid #d8b96c;border-radius:50%;display:grid;place-items:center;position:relative;box-shadow:0 0 12px #d9b85c44,inset 0 0 10px #d9b85c22}#ep-hedwig-loader .ep-magic:before{content:"✦　✧　✦";position:absolute;inset:-6px;border:1px dashed #c8a45d88;border-radius:50%;font:9px Georgia;color:#f1d28a;display:grid;place-items:start center;padding-top:0}#ep-hedwig-loader img{width:88%;height:88%;object-fit:contain}#ep-hedwig-loader .ep-title{font:normal 16px Georgia,serif;letter-spacing:.2em;color:#f8edcf;margin:0 0 8px}#ep-hedwig-loader .ep-quote{font:13px/1.45 Georgia,serif;color:#e8dcc1;margin:0 0 14px}#ep-hedwig-loader .ep-track{height:4px;border:1px solid #826b42;border-radius:8px;overflow:hidden;background:#17121b}#ep-hedwig-loader .ep-fill{height:100%;width:35%;background:linear-gradient(90deg,#96702e,#ffe7a0,#b78a3e);box-shadow:0 0 9px #f0ce79;animation:ep-progress 1.2s ease-in-out infinite}@keyframes ep-progress{0%{width:8%;transform:translateX(-5%)}50%{width:72%}100%{width:32%;transform:translateX(210%)}}@media(prefers-reduced-motion:reduce){#ep-hedwig-loader .ep-fill{animation:none;width:65%}}
+</style>
+<div id="ep-hedwig-loader" role="status" aria-live="polite"><div class="ep-load-card"><div class="ep-magic"><img src="../shared-assets/hedwig-loader.png" alt="Hedwig the owl"></div><p class="ep-title">EPISTEME</p><p class="ep-quote" id="ep-hedwig-quote">“One moment, please. Your next adventure awaits.”</p><div class="ep-track"><div class="ep-fill"></div></div></div></div>
+<script id="EPISTEME-global-hedwig-loader-script">(()=>{const overlay=document.getElementById('ep-hedwig-loader');if(!overlay)return;const quotes=['“A little patience, please. Your next adventure awaits.”','“Hedwig is on the way with a little magic.”','“Nearly there, wizard. Keep your wand at the ready.”'];document.getElementById('ep-hedwig-quote').textContent=quotes[Math.floor(Math.random()*quotes.length)];const hide=()=>overlay.classList.add('ep-hidden');window.addEventListener('pageshow',()=>setTimeout(hide,650),{once:true});setTimeout(hide,1400);document.addEventListener('click',e=>{const a=e.target.closest('a[href]');if(!a||e.defaultPrevented||e.button!==0||e.metaKey||e.ctrlKey||e.shiftKey||e.altKey||a.target&&a.target!=='_self'||a.hasAttribute('download'))return;let u;try{u=new URL(a.href,location.href)}catch(_){return}if(u.origin!==location.origin||u.hash&&u.pathname===location.pathname||/^(mailto:|tel:|javascript:)/i.test(a.href))return;overlay.classList.remove('ep-hidden');e.preventDefault();setTimeout(()=>location.href=a.href,180)},true);document.addEventListener('submit',e=>{if(e.defaultPrevented)return;overlay.classList.remove('ep-hidden')},true)})();</script>
+<style id="ep-rules-overlay-css">
+.er-rule-button{display:block;margin:14px auto 12px}.er-check{display:flex;gap:10px;align-items:flex-start;padding:12px;border:1px solid #d9bd7355;border-radius:12px;background:#0c1020aa}.er-check input{margin-top:4px;accent-color:#d9bd73;transform:scale(1.15)}.er-continue{display:block;width:100%;margin-top:14px;background:linear-gradient(110deg,#604a24,#9a7739);color:#fff4d5}.er-continue:disabled{opacity:.4}.er-rules-detail{display:none;margin-top:14px;padding:12px;border:1px solid #d9bd7355;border-radius:14px;background:#080b15}.er-rules-detail.er-visible{display:block}.er-index{display:flex;flex-wrap:wrap;gap:7px;margin:10px 0 16px}.er-index-link{border:1px solid #bda15c77;border-radius:999px;background:#171d2d;color:#f2d997;padding:7px 10px;font-size:.8rem}.er-topic{padding:12px 0;border-top:1px solid #cdbb7933;scroll-margin-top:12px}.er-topic h3{font-size:1rem;color:#f2d997;margin:0 0 7px}.er-topic p{line-height:1.6;margin:0;color:#eee7d6}.er-fineprint{font-size:.8rem;color:#c9c5b9;text-align:center}.er-actions{display:flex;justify-content:flex-end;margin-top:10px}.er-close{padding:7px 12px}
+</style><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="../supabase-config.js"></script>
+<script src="../site-media.js"></script>
+
+<!-- EPISTEME visual text edits: public read-only patch loader -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="../supabase-config.js"></script>
+
+<script>
+(()=>{const m=document.getElementById('bookModal');if(!m)return;const reset=()=>{if(m.classList.contains('open'))m.scrollTop=0;};new MutationObserver(reset).observe(m,{attributes:true,attributeFilter:['class']});m.addEventListener('click',e=>{if(e.target.closest('#closeBook')){m.scrollTop=0;}});})();
+</script>
+
+<script src="../visual-edits-runtime.js"></script>
+<script src="../supabase-config.js"></script>
+
+<script id="ep-live-general-rules">(()=>{const cfg=window.EPISTEME_SUPABASE_CONFIG;if(!cfg?.url||!cfg?.publishableKey)return;const endpoint=cfg.url.replace(/\/$/,'')+'/rest/v1/episteme_site_content';async function read(key){try{const u=endpoint+'?content_key=eq.'+encodeURIComponent(key)+'&select=content_value&limit=1';const r=await fetch(u,{headers:{apikey:cfg.publishableKey,Authorization:'Bearer '+cfg.publishableKey},cache:'no-store'});if(!r.ok){console.warn('Could not load published rule key:',key,r.status);return null}const a=await r.json();let v=a?.[0]?.content_value;if(typeof v==='string'){try{v=JSON.parse(v)}catch{}}return v}catch(e){console.warn('Rule read failed:',key,e);return null}}function cleanRules(v){return Array.isArray(v?.rules)?v.rules.filter(r=>r&&typeof r.title==='string'&&typeof r.text==='string'):[]}async function refresh(){const [m,w]=await Promise.all([read('rules.membership.published'),read('rules.wings.published')]);let mr=cleanRules(m),wr=cleanRules(w);if(!mr.length&&!wr.length){const legacy=await read('rules.general.published');const old=cleanRules(legacy);if(old.length){mr=old.slice(0,1);wr=old.slice(1)}}if(!mr.length&&!wr.length)return;const detail=document.querySelector('#epJoinRulesOverlay-detail,.er-rules-detail');if(!detail)return;let nav=detail.querySelector('.er-index'),topics=detail.querySelector('.er-topics');if(!topics){topics=document.createElement('div');topics.className='er-topics';detail.appendChild(topics)}if(!nav){nav=document.createElement('nav');nav.className='er-index';nav.setAttribute('aria-label','Rules index');detail.insertBefore(nav,topics)}nav.replaceChildren();topics.replaceChildren();const all=[...mr.map(r=>({...r,_group:'membership'})),...wr.map(r=>({...r,_group:'wings'}))];all.forEach((r,i)=>{const id='er-topic-'+(i+1),b=document.createElement('button');b.type='button';b.className='er-index-link';b.dataset.ruleTarget=id;b.textContent=(i+1)+'. '+r.title;nav.appendChild(b);const sec=document.createElement('section');sec.className='er-topic';sec.id=id;sec.dataset.ruleGroup=r._group;const h=document.createElement('h3'),p=document.createElement('p');h.textContent=(i+1)+'. '+r.title;p.textContent=r.text;sec.append(h,p);topics.appendChild(sec)});function applyMode(){const mode=detail.closest('#epJoinRulesOverlay')?.dataset.mode||'wings';topics.querySelectorAll('.er-topic').forEach(s=>s.hidden=mode==='membership'?s.dataset.ruleGroup!=='membership':s.dataset.ruleGroup!=='wings');nav.querySelectorAll('[data-rule-target]').forEach(b=>{const s=document.getElementById(b.dataset.ruleTarget);b.hidden=!!s?.hidden})}applyMode()}document.addEventListener('click',e=>{if(e.target.closest('[data-er-open-rules]')){refresh().then(()=>{const d=document.querySelector('#epJoinRulesOverlay-detail,.er-rules-detail');if(d?.classList.contains('er-visible')){const mode=d.closest('#epJoinRulesOverlay')?.dataset.mode||'wings';d.querySelectorAll('.er-topic').forEach(s=>s.hidden=mode==='membership'?s.dataset.ruleGroup!=='membership':s.dataset.ruleGroup!=='wings');d.querySelectorAll('.er-index-link').forEach(b=>{const s=document.getElementById(b.dataset.ruleTarget);b.hidden=!!s?.hidden})}})} });refresh();})();</script>
+
+<script>loadPublishedWingOverlay();</script>
+</body>
+</html>

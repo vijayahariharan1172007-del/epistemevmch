@@ -1,0 +1,6 @@
+-- EPISTEME Wings Book Overlay Editor
+-- No schema migration is required: the editor uses the existing public.episteme_site_content table.
+-- Content keys used by the editor: wings_overlay_draft and wings_overlay_published.
+-- Keep public writes disabled. Public visitors only need SELECT access to the published key.
+-- The admin portal writes these keys using the existing authenticated admin session.
+-- If your current RLS policies already allow public SELECT and authenticated admin upsert, no SQL is needed.

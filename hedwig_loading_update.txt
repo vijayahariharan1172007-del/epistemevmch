@@ -1,0 +1,4 @@
+HEDWIG LOADING UPDATE
+- loading.html is now a standalone magical loading page with a 2.5 cm circular sigil, Hedwig artwork, gold progress bar, and owl-post dialogue.
+- Shared compact loader is included across HTML pages, including the main page, Join EPISTEME, Astra, Events, About, Contacts, Wings, and other local pages. It appears briefly on page entry and during local page navigation/form submission.
+- Uses shared-assets/hedwig-loader.png and respects reduced-motion preferences.
