@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#100f0d">
+<meta name="description" content="Meet the faculty patrons and guest faculty supporting the five Wings of EPISTEME.">
+<title>Faculty In-Charges & Wing Patrons | EPISTEME</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=IM+Fell+English:ital@0;1&display=swap" rel="stylesheet">
+<style>
+:root{--night:#100f0d;--panel:#18150f;--gold:#d8b779;--cream:#f4e7ca;--muted:#c7b99c;--line:#6f5838;--soft:#241d13}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--night);color:var(--cream);font-family:'Cormorant Garamond',Georgia,serif}
+a{color:inherit;text-decoration:none}.site-header{position:sticky;top:0;z-index:10;display:flex;align-items:center;justify-content:space-between;gap:18px;padding:16px clamp(18px,5vw,72px);background:#100f0df2;border-bottom:1px solid #5c472b;backdrop-filter:blur(12px)}
+.brand{display:flex;align-items:center;gap:11px;color:var(--gold);font-size:clamp(18px,2vw,25px);letter-spacing:3px;white-space:nowrap}.brand-mark{width:34px;height:40px;border:1px solid var(--gold);border-radius:50% 50% 45% 45%;display:grid;place-items:center;font-size:22px}
+.nav{display:flex;gap:clamp(12px,2vw,26px);align-items:center;font:11px/1.4 system-ui,sans-serif;text-transform:uppercase;letter-spacing:1.4px}.nav a{padding:7px 0;border-bottom:1px solid transparent;color:#d8c9aa}.nav a:hover,.nav a.active{color:var(--gold);border-color:var(--gold)}.menu-toggle{display:none;background:transparent;color:var(--gold);border:1px solid var(--line);padding:8px 11px;font:inherit}
+.hero{position:relative;overflow:hidden;text-align:center;padding:clamp(70px,10vw,130px) 22px 65px;background:radial-gradient(ellipse at 50% 0%,#3b2a16 0%,#19140e 38%,var(--night) 74%)}.hero:after{content:"✧";position:absolute;top:24px;left:50%;transform:translateX(-50%);font-size:28px;color:var(--gold);opacity:.8}.eyebrow{font:700 11px/1.5 system-ui,sans-serif;letter-spacing:3px;text-transform:uppercase;color:var(--gold)}h1{font:400 clamp(42px,7vw,82px)/1.02 'IM Fell English',Georgia,serif;margin:18px auto 15px;max-width:900px}h1 span{color:var(--gold);font-style:italic}.hero p{max-width:680px;margin:0 auto;color:var(--muted);font-size:clamp(17px,2vw,21px);line-height:1.55}.hero-rule{height:1px;width:min(240px,60%);margin:28px auto 0;background:linear-gradient(90deg,transparent,var(--gold),transparent)}
+main{max-width:1180px;margin:auto;padding:0 clamp(18px,5vw,60px) 70px}.intro{display:flex;align-items:center;justify-content:space-between;gap:20px;padding:28px 0 24px;border-bottom:1px solid #4d3b25;color:var(--muted);font-size:17px;line-height:1.5}.intro strong{color:var(--gold);font-weight:600}.count{flex-shrink:0;border:1px solid var(--line);padding:9px 13px;color:var(--gold);font:11px system-ui,sans-serif;letter-spacing:1.5px;text-transform:uppercase}
+.wing-section{padding-top:48px}.section-head{display:flex;align-items:flex-end;justify-content:space-between;gap:18px;margin-bottom:20px}.section-head h2{font:400 clamp(27px,4vw,38px)/1.1 'IM Fell English',Georgia,serif;margin:7px 0 0}.section-head h2 em{color:var(--gold);font-style:normal}.domain{font-size:16px;color:var(--muted);text-align:right;max-width:270px}.faculty-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}.faculty-card{position:relative;min-height:190px;padding:25px 22px 22px;border:1px solid var(--line);background:linear-gradient(145deg,#211a10 0%,#14120e 72%);overflow:hidden;transition:transform .2s,border-color .2s}.faculty-card:hover{transform:translateY(-3px);border-color:var(--gold)}.faculty-card:after{content:"✦";position:absolute;right:15px;top:11px;color:#8e7143;font-size:14px}.role{display:inline-block;margin-bottom:15px;padding:5px 8px;border:1px solid #70572f;color:var(--gold);font:700 9px system-ui,sans-serif;letter-spacing:1.5px;text-transform:uppercase}.faculty-card h3{font:600 clamp(20px,2.2vw,25px)/1.15 'Cormorant Garamond',Georgia,serif;margin:0 0 10px;color:var(--cream)}.dept{font-size:17px;color:var(--muted);line-height:1.35}.dept b{color:#e0c58e;font-weight:600}.guest-section{margin-top:52px;padding:30px;border:1px solid #5e4829;background:radial-gradient(ellipse at top right,#2b2113,#15120e 65%)}.guest-section .section-head{margin-bottom:20px}.guest-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}.guest-card{border-left:2px solid var(--gold);padding:15px 18px;background:#ffffff05}.guest-card h3{margin:0 0 5px;font-size:23px;font-weight:600}.guest-card p{margin:0;color:var(--muted);font-size:16px}.note{margin-top:30px;padding:17px 19px;border:1px dashed #65502f;color:#bdb095;font-size:15px;line-height:1.55}.note strong{color:var(--gold)}.footer{border-top:1px solid #4e3d27;padding:24px clamp(20px,7vw,100px);display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;color:#b8a789;font-size:14px}.footer strong{color:var(--gold);letter-spacing:2px}.back-top{color:var(--gold)}
+@media(max-width:780px){.site-header{padding:13px 17px}.menu-toggle{display:block}.nav{display:none;position:absolute;top:68px;left:12px;right:12px;background:#12110ff7;border:1px solid var(--line);padding:14px;flex-direction:column;align-items:stretch;gap:5px}.nav.open{display:flex}.nav a{padding:10px}.faculty-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.intro{align-items:flex-start;flex-direction:column}.count{align-self:flex-start}.section-head{align-items:flex-start;flex-direction:column}.domain{text-align:left}.guest-section{padding:22px 17px}}
+@media(max-width:520px){.brand{letter-spacing:2px}.brand-mark{width:30px;height:35px}.faculty-grid,.guest-grid{grid-template-columns:1fr}.faculty-card{min-height:unset;padding:22px 19px}.hero{padding-top:88px}.wing-section{padding-top:38px}.footer{flex-direction:column}.guest-section{margin-top:38px}}
+@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important}}
+</style>
+</head>
+<body>
+<header class="site-header">
+<a class="brand" href="index.html" aria-label="EPISTEME home"><span class="brand-mark">✧</span><span>EPISTEME</span></a>
+<button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav">☰ Menu</button>
+<nav class="nav" id="site-nav" aria-label="Main navigation">
+<a href="index.html">Home</a><a href="about.html">About</a><a href="wings.html">Wings</a><a href="core-team.html">Core Team</a><a class="active" href="faculty-incharges.html">Faculty</a><a href="contacts.html">Contact</a>
+</nav>
+</header>
+<section class="hero">
+<div class="eyebrow">Guidance • Mentorship • Discovery</div>
+<h1>Faculty <span>In-Charges</span><br>&amp; Wing Patrons</h1>
+<p>The faculty members who guide the Wings of EPISTEME, supporting student-led learning, creativity, research and academic development.</p>
+<div class="hero-rule"></div>
+</section>
+<main>
+<div class="intro"><div>Each wing has its own focus and designated <strong>Wing Patron(s)</strong>. Faculty details below follow the supplied <em>Wings of EPISTEME — Information Booklet</em>.</div><div class="count">5 Wings · 10 Faculty Listings</div></div>
+
+<section class="wing-section" id="vivara">
+<div class="section-head"><div><div class="eyebrow">01 / Language & Ideas</div><h2><em>VIVARA</em> <span>— சிந்தைவிழி</span></h2></div><div class="domain">Learning &amp; Intellectual Expression</div></div>
+<div class="faculty-grid">
+<article class="faculty-card"><span class="role">Wing Patron</span><h3>Dr. Gokila Rani S</h3><div class="dept">Department of <b>Psychiatry</b></div></article>
+<article class="faculty-card"><span class="role">Wing Patron</span><h3>Dr. Srividhya M</h3><div class="dept">Department of <b>Microbiology</b></div></article>
+<article class="faculty-card"><span class="role">Wing Patron</span><h3>Dr. Sriram C K</h3><div class="dept">Department of <b>Dermatology</b></div></article>
+</div>
+</section>
+
+<section class="wing-section" id="cognitiva">
+<div class="section-head"><div><div class="eyebrow">02 / Academic Exploration</div><h2><em>COGNITIVA</em> <span>— தைளிவிழி</span></h2></div><div class="domain">Academic Learning &amp; Innovation</div></div>
+<div class="faculty-grid">
+<article class="faculty-card"><span class="role">Wing Patron</span><h3>Dr. Viveka M</h3><div class="dept">Department of <b>Biochemistry</b></div></article>
+<article class="faculty-card"><span class="role">Wing Patron</span><h3>Dr. Bragadeeshwaran N</h3><div class="dept">Department of <b>Paediatrics</b></div></article>
+</div>
+</section>
+
+<section class="wing-section" id="revela">
+<div class="section-head"><div><div class="eyebrow">03 / Evidence & Discovery</div><h2><em>REVELA</em> <span>— தைட்டவிழி</span></h2></div><div class="domain">Research &amp; Discovery</div></div>
+<div class="faculty-grid">
+<article class="faculty-card"><span class="role">Wing Patron</span><h3>Dr. Muthu Meera R</h3><div class="dept">Department of <b>Pharmacology</b></div></article>
+<article class="faculty-card"><span class="role">Wing Patron</span><h3>Dr. Shantha Sheela Kumari</h3><div class="dept">Department of <b>Community Medicine</b></div></article>
+</div>
+</section>
+
+<section class="wing-section" id="artera">
+<div class="section-head"><div><div class="eyebrow">04 / Art & Expression</div><h2><em>ARTERA</em> <span>— கதைவிழி</span></h2></div><div class="domain">Creative Arts &amp; Expression</div></div>
+<div class="faculty-grid">
+<article class="faculty-card"><span class="role">Wing Patron</span><h3>Dr. Nandhini Devi S</h3><div class="dept">Department of <b>Pharmacology</b></div></article>
+<article class="faculty-card"><span class="role">Wing Patron</span><h3>Dr. Santosh Kumar D</h3><div class="dept">Department of <b>Psychiatry</b></div></article>
+<article class="faculty-card"><span class="role">Wing Patron</span><h3>Dr. Sidharth S</h3><div class="dept">Department of <b>Forensic Medicine</b></div></article>
+</div>
+</section>
+
+<section class="wing-section" id="astra">
+<div class="section-head"><div><div class="eyebrow">05 / Learning Support</div><h2><em>ASTRA</em></h2></div><div class="domain">Academic Support &amp; Development</div></div>
+<div class="faculty-grid">
+<article class="faculty-card"><span class="role">Wing Patron</span><h3>Dr. Raju Kumaran T</h3><div class="dept">Department of <b>Anatomy</b></div></article>
+</div>
+</section>
+
+<section class="guest-section" id="guest-faculty">
+<div class="section-head"><div><div class="eyebrow">Additional guidance</div><h2>VIVARA <em>Guest Faculty</em></h2></div></div>
+<div class="guest-grid">
+<article class="guest-card"><h3>Prof. Dr. Rajendran T</h3><p>Department of Microbiology</p></article>
+<article class="guest-card"><h3>Prof. Dr. Ramesh A</h3><p>Department of Microbiology</p></article>
+</div>
+</section>
+<div class="note"><strong>Editorial note:</strong> The supplied booklet identifies the Wing Patrons and VIVARA Guest Faculties listed here. It does not specify a separate institution-wide “Faculty In-Charge of EPISTEME” by name, so no additional name has been inferred.</div>
+</main>
+<footer class="footer"><div><strong>EPISTEME</strong><br>Learn. Discover. Create. Support.</div><div>Faculty guidance for every pathway of curiosity.</div><a class="back-top" href="#">Back to top ↑</a></footer>
+<script>
+const toggle=document.querySelector('.menu-toggle');const nav=document.querySelector('.nav');
+toggle.addEventListener('click',()=>{const open=nav.classList.toggle('open');toggle.setAttribute('aria-expanded',String(open));});
+nav.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{nav.classList.remove('open');toggle.setAttribute('aria-expanded','false');}));
+</script>
+</body>
+</html>
